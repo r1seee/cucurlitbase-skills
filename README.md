@@ -1,4 +1,4 @@
-# CucurLitBase Codex Skills
+# CucurLitBase Skills
 
 这个仓库整理了用于访问和分析 CucurLitBase 的 Codex skills。当前版本面向两个核心需求：稳定查询数据库 API，以及生成研究者可读的深度文献证据报告。
 
