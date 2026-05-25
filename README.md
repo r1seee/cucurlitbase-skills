@@ -4,7 +4,13 @@ CucurLitBase Skills provides a set of Codex skills for querying CucurLitBase and
 
 These skills are designed for users who want to explore species, traits, genes, papers, and gene-trait evidence in CucurLitBase without manually assembling API calls or reformatting evidence tables.
 
-## Included Skills
+## Skill index
+
+| Skill | Status | Purpose | Trigger keywords |
+| --- | --- | --- | --- |
+| `cucurlitbase-api` | Stable | Query CucurLitBase REST API for species, traits, genes, PMIDs, evidence records, and strict ASCII trait trees. | "list species", "trait tree", "search CucurLitBase", "API link", "PMID query" |
+| `cucurlitbase-report` | Stable | Convert CucurLitBase query results into a fixed-format evidence summary with stable sections and source links. | "standard report", "summarize CucurLitBase results", "fixed format", "evidence summary" |
+| `cucurlitbase-gene-report` | Advanced | Generate researcher-facing gene reports with PubMed metadata, evidence tables, figures, DOCX rendering, peer-gene comparison, mechanism chains, and enrichment guidance. | "deep gene report", "Watermelon PAL report", "same-trait peer genes", "mechanism chain", "DOCX report" |
 
 ### `cucurlitbase-api`
 
