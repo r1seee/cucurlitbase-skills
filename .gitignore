@@ -1,6 +1,7 @@
 tmp/
 outputs/
+dist/
 *.pyc
 __pycache__/
-skills/cucurlitbase-skills.rar
-dist/cucurlitbase-skills-20260522.zip
+*.zip
+*.rar

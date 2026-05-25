@@ -1,82 +1,96 @@
 # CucurLitBase Skills
 
-这个仓库整理了用于访问和分析 CucurLitBase 的 Codex skills。当前版本面向两个核心需求：稳定查询数据库 API，以及生成研究者可读的深度文献证据报告。
+This repository contains Codex skills for querying and analyzing CucurLitBase. It is intended to be installed as source skill folders, not as a zip package.
 
-## 包含的 skills
+## What Is Included
 
-- `cucurlitbase-api`: 查询 CucurLitBase REST API，支持物种、性状、基因、PMID 列表，以及基因、物种、性状、PMID 的单条件或双条件检索。
-- `cucurlitbase-report`: 将 API 查询结果整理为固定格式的用户报告。
-- `cucurlitbase-gene-report`: 面向某物种某基因生成深度调研报告，包含 PubMed 期刊/年份/标题补充、证据表、机制分类、证据强度、图表、DOCX 渲染、同表型相关基因比较、句子级机制链和外源数据库拓展规范。
+- `cucurlitbase-api`: queries the live CucurLitBase REST API for species, traits, genes, PMIDs, evidence records, and strict ASCII trait trees.
+- `cucurlitbase-report`: converts CucurLitBase query results into a stable, user-facing evidence summary.
+- `cucurlitbase-gene-report`: generates researcher-facing gene evidence reports with PubMed metadata, paper titles, evidence tables, figures, DOCX rendering, same-trait peer-gene comparison, sentence-level mechanism chains, and external database enrichment guidance.
 
-## 安装方式
-
-将 `skills/` 下的 skill 文件夹复制到本机 Codex skills 目录：
-
-```powershell
-Copy-Item -Recurse -Force .\skills\cucurlitbase-api C:\Users\<your-user>\.codex\skills\
-Copy-Item -Recurse -Force .\skills\cucurlitbase-report C:\Users\<your-user>\.codex\skills\
-Copy-Item -Recurse -Force .\skills\cucurlitbase-gene-report C:\Users\<your-user>\.codex\skills\
-```
-
-也可以直接解压发布包：
+## Repository Layout
 
 ```text
-dist/cucurlitbase-skills-20260525.zip
+skills/
+  cucurlitbase-api/
+  cucurlitbase-report/
+  cucurlitbase-gene-report/
+README.md
+.gitignore
 ```
 
-## 基础使用示例
+The repository should not store generated report outputs, temporary files, or zip archives. Install the skills directly from the `skills/` directory.
 
-查询支持的物种：
+## Installation
 
-```bash
-python skills/cucurlitbase-api/scripts/query_cucurlitbase.py list species
+Clone the repository:
+
+```powershell
+git clone https://github.com/r1seee/cucurlitbase-skills.git
+cd cucurlitbase-skills
 ```
 
-查询西瓜中某基因的证据：
+Copy the skill folders into your local Codex skills directory:
 
-```bash
-python skills/cucurlitbase-api/scripts/query_cucurlitbase.py search --species Watermelon --gene PAL --output report --limit 10
+```powershell
+Copy-Item -Recurse -Force .\skills\cucurlitbase-api $env:USERPROFILE\.codex\skills\
+Copy-Item -Recurse -Force .\skills\cucurlitbase-report $env:USERPROFILE\.codex\skills\
+Copy-Item -Recurse -Force .\skills\cucurlitbase-gene-report $env:USERPROFILE\.codex\skills\
 ```
 
-生成单基因深度报告：
+Restart or open a new Codex conversation so the skills are discovered.
 
-```bash
-python skills/cucurlitbase-gene-report/scripts/build_gene_report.py --species Watermelon --gene PAL --output-dir outputs/watermelon_pal_deep --limit -1
-```
+## Skill Usage Examples
 
-生成带同表型相关基因背景的深度报告：
+After installation, use the skills through natural-language requests in Codex.
 
-```bash
-python skills/cucurlitbase-gene-report/scripts/build_gene_report.py --species Watermelon --gene PAL --output-dir outputs/watermelon_pal_deep --limit -1 --include-trait-peer-genes
-```
+### API Queries
 
-渲染最终 DOCX：
+Example prompts:
 
-```bash
-python skills/cucurlitbase-gene-report/scripts/render_markdown_docx.py --markdown outputs/watermelon_pal_deep/final_report.md --output-docx outputs/watermelon_pal_deep/final_report.docx
-```
+- `Use cucurlitbase-api to list all supported species.`
+- `Use cucurlitbase-api to show the CucurLitBase trait tree.`
+- `Use cucurlitbase-api to search Watermelon + PAL and include the direct API link.`
+- `Use cucurlitbase-api to find records for trait Texture in Bitter melon.`
+- `Use cucurlitbase-api to query PMID 31829140.`
 
-运行质量检查：
+### Fixed-Format Evidence Summaries
 
-```bash
-python skills/cucurlitbase-gene-report/scripts/check_gene_report_quality.py --report-md outputs/watermelon_pal_deep/final_report.md --evidence-json outputs/watermelon_pal_deep/data/evidence_enriched.json
-```
+Example prompts:
 
-## 深度报告能力
+- `Use cucurlitbase-report to summarize the CucurLitBase results for Watermelon + PAL.`
+- `Use cucurlitbase-report to convert this CucurLitBase JSON result into the standard report format.`
 
-`cucurlitbase-gene-report` 当前要求报告具备：
+### Deep Gene Reports
 
-- 中文学术标题和多级章节结构。
-- Evidence Table 中保留原文、中文翻译、论文标题、期刊、年份、PMID、机制分类、证据强度和机制链。
-- 图表编号与题注，例如 `Fig. 1.`，并在正文中引用。
-- 性状分布、机制分布、证据强度、年代折线、性状-机制热图、性状-证据强度热图、PMID-性状矩阵。
-- 同表型下其他基因的比较背景。
-- 数据不足时，按规范补充 UniProt/Swiss-Prot、NCBI 等外源数据库信息；GeneCards 不作为默认自动化来源。
-- 句子级机制推理链，例如 `Gene -> evidence event -> mechanism context -> trait`。
+Example prompts:
 
-## 注意事项
+- `Use cucurlitbase-gene-report to generate a deep report for Watermelon PAL.`
+- `Use cucurlitbase-gene-report to create a DOCX report for Watermelon PAL, including figures and evidence table.`
+- `Use cucurlitbase-gene-report to analyze Watermelon PAL and include same-trait peer genes.`
+- `Use cucurlitbase-gene-report to add external database enrichment when CucurLitBase evidence is sparse.`
 
-- CucurLitBase 是核心证据源，外源数据库只能作为补充，不能替代文献证据。
-- 机制分类和机制链是初筛结果，正式报告中必须结合原文句子和论文方法复核。
-- BFT 树只在获得真实层级数据时绘制，不能根据 trait 名称自行推断层级。
-- 低证据场景下应降低结论强度，不应扩写成无法支撑的机制结论。
+Expected report features:
+
+- Chinese academic section headings.
+- Evidence table with original sentence, Chinese translation, paper title, journal, year, PMID, evidence strength, mechanism category, and mechanism chain.
+- Numbered figures with captions and in-text `Fig. x` references.
+- Trait distribution, mechanism distribution, evidence-strength distribution, publication timeline, trait-mechanism heatmap, trait-strength heatmap, and PMID-trait matrix.
+- Same-trait peer-gene comparison when relevant.
+- Conservative claim language based on evidence strength.
+- Optional external enrichment from official sources such as UniProt/Swiss-Prot and NCBI when CucurLitBase evidence is insufficient.
+
+## Design Boundaries
+
+- CucurLitBase remains the primary evidence source.
+- External databases are supplemental and must be clearly separated from CucurLitBase literature evidence.
+- GeneCards is not treated as a default automated source because structured access has licensing and applicability constraints.
+- BFT trait trees should only be drawn from real trait hierarchy data; do not infer hierarchy from trait names.
+- Mechanism chains are reasoning scaffolds, not causal proof. Causal claims require functional perturbation or equivalent evidence.
+
+## Development Notes
+
+- Keep `SKILL.md` concise and place detailed behavior rules in `references/`.
+- Keep reusable deterministic logic in `scripts/`.
+- Do not commit generated outputs, temporary test folders, or zip archives.
+- Validate changed skills with the Codex `skill-creator` quick validation script before release.
