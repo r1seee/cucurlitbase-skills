@@ -1,0 +1,4 @@
+interface:
+  display_name: "CucurLitBase API"
+  short_description: "Query CucurLitBase evidence and catalogs"
+  default_prompt: "Use $cucurlitbase-api to query CucurLitBase for species, traits, genes, PMIDs, or evidence records."

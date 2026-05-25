@@ -1,0 +1,4 @@
+interface:
+  display_name: "CucurLitBase Report"
+  short_description: "Standardize CucurLitBase evidence reports"
+  default_prompt: "Use $cucurlitbase-report to turn CucurLitBase query results into a fixed-format evidence report."

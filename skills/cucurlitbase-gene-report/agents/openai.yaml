@@ -1,0 +1,4 @@
+interface:
+  display_name: "CucurLitBase Gene Report"
+  short_description: "Build deep CucurLitBase gene reports"
+  default_prompt: "Use $cucurlitbase-gene-report to build a deep DOCX research report for a gene in a species."
